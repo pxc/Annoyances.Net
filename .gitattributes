@@ -1,5 +1,2 @@
-# Cope with NUnit's licence using LF instead of CRLF
-license.txt    eol=lf
-
 # reSharper shared project settings
 *.DotSettings  eol=lf
