@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 
@@ -133,6 +134,77 @@ namespace Annoyances.Net.Tests
         {
             IEnumerable<double> sequence = new[] { 1.0, 2, 3, 4 };
             Assert.That(sequence.AverageOrDefault<double>(v => v + 1, -1.0), Is.EqualTo(2.5 + 1));
+        }
+
+        [Test]
+        public static void TestTakeEveryWithNullExpectEmptySequence()
+        {
+            IEnumerable<int> sequence = null;
+            Assert.That(sequence.TakeEvery(2), Is.Empty);
+        }
+
+        [Test]
+        public static void TestTakeEveryWithEmptySequenceExpectEmptySequence()
+        {
+            IEnumerable<int> sequence = Enumerable.Empty<int>();
+            Assert.That(sequence.TakeEvery(2), Is.Empty);
+        }
+
+        [Test]
+        public static void TestTakeEvery2WithEvenNumberOfItemsExpectSuccess()
+        {
+            IEnumerable<int> sequence = new[] { 1, 2, 3, 4 };
+            var expectedResult = new[] {1, 3};
+            var result = sequence.TakeEvery(2);
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public static void TestTakeEvery2WithOddNumberOfItemsExpectSuccess()
+        {
+            IEnumerable<int> sequence = new[] { 1, 2, 3, 4, 5 };
+            var expectedResult = new[] { 1, 3, 5 };
+            var result = sequence.TakeEvery(2);
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public static void TestTakeEveryMinus1ExpectException()
+        {
+            IEnumerable<int> sequence = new[] {1};
+            Assert.That(() => sequence.TakeEvery(-1).ToArray(), Throws.InstanceOf<ArgumentOutOfRangeException>());
+        }
+
+        [Test]
+        public static void TestTakeEvery0ExpectException()
+        {
+            IEnumerable<int> sequence = new[] { 1 };
+            Assert.That(() => sequence.TakeEvery(0).ToArray(), Throws.InstanceOf<ArgumentOutOfRangeException>());
+        }
+
+        [Test]
+        public static void TestTakeEvery1ExpectSame()
+        {
+            IEnumerable<int> sequence = new[] { 1, 2, 3 };
+            Assert.That(() => sequence.TakeEvery(1), Is.EqualTo(sequence));
+        }
+
+        [Test]
+        public static void TestTakeEvery3ExpectThreeSequences()
+        {
+            IEnumerable<string> sequence = new[] {"A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3"};
+
+            var expectedS1 = new[] { "A1", "B1", "C1" };
+            var expectedS2 = new[] { "A2", "B2", "C2" };
+            var expectedS3 = new[] { "A3", "B3", "C3" };
+
+            var s1 = sequence.TakeEvery(3);
+            var s2 = sequence.Skip(1).TakeEvery(3);
+            var s3 = sequence.Skip(2).TakeEvery(3);
+
+            Assert.That(s1, Is.EqualTo(expectedS1));
+            Assert.That(s2, Is.EqualTo(expectedS2));
+            Assert.That(s3, Is.EqualTo(expectedS3));
         }
     }
     // ReSharper restore RedundantTypeArgumentsOfMethod

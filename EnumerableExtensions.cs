@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -272,6 +273,27 @@ namespace Annoyances.Net
             }
 
             return sequence.Average(f);
+        }
+        #endregion
+
+        #region TakeEvery
+        public static IEnumerable<T> TakeEvery<T>(this IEnumerable<T> sequence, int n)
+        {
+            if (n < 1)
+            {
+                throw new ArgumentOutOfRangeException("n", "Must be at least 1");
+            }
+
+            int i = 0;
+            foreach (T element in sequence ?? Enumerable.Empty<T>())
+            {
+                if (i % n == 0)
+                {
+                    yield return element;
+                }
+
+                i++;
+            }
         }
         #endregion
     }
