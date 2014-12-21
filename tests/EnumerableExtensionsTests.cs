@@ -235,6 +235,30 @@ namespace Annoyances.Net.Tests
             Assert.That(result, Is.Not.EqualTo(sequence));
             Assert.That(result, Is.EquivalentTo(sequence));
         }
+
+        [Test]
+        public static void TestCycleWithNullExpectEmptySequenceException()
+        {
+            IEnumerable<object> sequence = null;
+            Assert.That(() => sequence.Cycle().First(), Throws.InstanceOf<EmptySequenceException>());
+        }
+
+        [Test]
+        public static void TestCycleWithEmptySequenceExpectEmptySequenceException()
+        {
+            IEnumerable<object> sequence = Enumerable.Empty<object>();
+            Assert.That(() => sequence.Cycle().First(), Throws.InstanceOf<EmptySequenceException>());
+        }
+
+        [Test]
+        public static void TestCycleWithElementsExpectCycle()
+        {
+            var sequence = new[] { 1, 2, 3 };
+            var expectedResult = new[] { 1, 2, 3, 1, 2, 3, 1 };
+            var result = sequence.Cycle().Take(7);
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
     }
     // ReSharper restore RedundantTypeArgumentsOfMethod
     // ReSharper restore ExpressionIsAlwaysNull

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -303,5 +302,41 @@ namespace Annoyances.Net
             return sequence.OrderBy(e => Guid.NewGuid());
         }
         #endregion
+
+        #region Cycle
+        // ReSharper disable FunctionNeverReturns
+        // ReSharper disable PossibleMultipleEnumeration
+        /// <summary>
+        /// Cycle endlessly through the items in the sequence
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the sequence</typeparam>
+        /// <param name="sequence">The sequence to cycle through (must be multiply enumerable)</param>
+        /// <returns>Each item in the sequence, then starts again at the beginning.</returns>
+        /// <remarks>Use with <c>Take</c> to prevent an endless loop.</remarks>
+        public static IEnumerable<T> Cycle<T>(this IEnumerable<T> sequence)
+        {
+            if (sequence == null || !sequence.Any())
+            {
+                throw new EmptySequenceException();
+            }
+
+            while (true)
+            {
+                foreach (T item in sequence)
+                {
+                    yield return item;
+                }
+            }
+        }
+        // ReSharper restore PossibleMultipleEnumeration
+        // ReSharper restore FunctionNeverReturns
+        #endregion
+    }
+
+    /// <summary>
+    /// Thrown when a sequence is null or empty and is expected not to be.
+    /// </summary>
+    public class EmptySequenceException : Exception
+    {
     }
 }
