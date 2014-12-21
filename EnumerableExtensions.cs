@@ -296,5 +296,12 @@ namespace Annoyances.Net
             }
         }
         #endregion
+
+        #region Shuffle
+        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> sequence)
+        {
+            return sequence.OrderBy(e => Guid.NewGuid());
+        }
+        #endregion
     }
 }

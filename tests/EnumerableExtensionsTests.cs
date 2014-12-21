@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using NUnit.Framework;
 
@@ -205,6 +206,34 @@ namespace Annoyances.Net.Tests
             Assert.That(s1, Is.EqualTo(expectedS1));
             Assert.That(s2, Is.EqualTo(expectedS2));
             Assert.That(s3, Is.EqualTo(expectedS3));
+        }
+
+        [Test]
+        public static void TestShuffleWithNullExpectArgumentNullException()
+        {
+            IEnumerable<int> sequence = null;
+            Assert.That(() => sequence.Shuffle(), Throws.InstanceOf<ArgumentNullException>());
+        }
+
+        [Test]
+        public static void TestShuffleWithEmptySequenceExpectEmptySequence()
+        {
+            IEnumerable<int> sequence = Enumerable.Empty<int>();
+            Assert.That(() => sequence.Shuffle(), Is.Empty);
+        }
+
+        [Test]
+        public static void TestShuffleWithNonEmptySequenceExpectShuffled()
+        {
+            IList<int> sequence = Enumerable.Range(0, 100).ToList();
+            IList<int> result = sequence.Shuffle().ToList();
+
+            // show the shuffled list for info
+            Console.WriteLine(string.Join(", ", result.Select(r => r.ToString(CultureInfo.InvariantCulture)).ToArray()));
+
+            Assert.That(result.Count, Is.EqualTo(100));
+            Assert.That(result, Is.Not.EqualTo(sequence));
+            Assert.That(result, Is.EquivalentTo(sequence));
         }
     }
     // ReSharper restore RedundantTypeArgumentsOfMethod
