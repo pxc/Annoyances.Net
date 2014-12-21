@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace Annoyances.Net
 {
-    public class NotNull<T> where T : class
+    public sealed class NotNull<T> where T : class
     {
         public T Value { get; private set; }
 
