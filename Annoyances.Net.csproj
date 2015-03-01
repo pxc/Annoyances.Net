@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArrayExtensions.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="NotNull.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

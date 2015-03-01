@@ -54,6 +54,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ArrayExtensionsTests.cs" />
     <Compile Include="EnumerableExtensionsTests.cs" />
     <Compile Include="NotNullTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
