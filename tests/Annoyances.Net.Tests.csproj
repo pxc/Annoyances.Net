@@ -40,6 +40,7 @@
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -55,6 +56,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ArrayExtensionsTests.cs" />
+    <Compile Include="ColorExtensionsTests.cs" />
+    <Compile Include="ColorHelperTests.cs" />
     <Compile Include="EnumerableExtensionsTests.cs" />
     <Compile Include="NotNullTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
