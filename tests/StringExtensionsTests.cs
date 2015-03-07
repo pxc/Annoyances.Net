@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using NUnit.Framework;
 
 namespace Annoyances.Net.Tests
@@ -55,6 +56,240 @@ namespace Annoyances.Net.Tests
             string result = "An <em class=\"special\">italic</em> string".StripTags();
             const string expectedResult = "An italic string";
             Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public static void TestIndexOfAnyWithNoMatchExpectMinusOne()
+        {
+            const string s = "the string to search";
+
+            var anyOf = new[] { "not present" };
+            string match;
+
+            int result = s.IndexOfAny(anyOf, StringComparison.InvariantCulture, out match);
+
+            Assert.That(result, Is.EqualTo(-1));
+            Assert.That(match, Is.Null);
+        }
+
+        [Test]
+        public static void TestIndexOfAnyWithMatchExpectSuccess()
+        {
+            const string s = "the string to search";
+
+            var anyOf = new[] { "string" };
+            string match;
+
+            int result = s.IndexOfAny(anyOf, StringComparison.InvariantCulture, out match);
+
+            Assert.That(result, Is.EqualTo(4));
+            Assert.That(match, Is.EqualTo("string"));
+        }
+
+        [Test]
+        public static void TestIndexOfAnyWithMultipleMatchesExpectIndexOfFirstOne()
+        {
+            const string s = "the string to search has another string";
+
+            var anyOf = new[] { "string" };
+            string match;
+
+            int result = s.IndexOfAny(anyOf, StringComparison.InvariantCulture, out match);
+
+            Assert.That(result, Is.EqualTo(4));
+            Assert.That(match, Is.EqualTo("string"));
+        }
+
+        [Test]
+        public static void TestIndexOfAnyWithMultipleCandidatesExpectIndexOfFirstMatch()
+        {
+            const string s = "the string to search has another string";
+
+            var anyOf = new[] { "search", "string" };
+            string match;
+
+            int result = s.IndexOfAny(anyOf, StringComparison.InvariantCulture, out match);
+
+            Assert.That(result, Is.EqualTo(4));
+            Assert.That(match, Is.EqualTo("string"));
+        }
+
+        [Test]
+        public static void TestIndexOfAnyWithExactMatchExpectZeroIndex()
+        {
+            const string s = "string";
+
+            var anyOf = new[] { "string" };
+            string match;
+
+            int result = s.IndexOfAny(anyOf, StringComparison.InvariantCulture, out match);
+
+            Assert.That(result, Is.EqualTo(0));
+            Assert.That(match, Is.EqualTo("string"));
+        }
+
+        [Test]
+        public static void TestIndexOfAnyWithStartIndexExpectSuccess()
+        {
+            const string s = "string one and string two";
+
+            var anyOf = new[] { "string" };
+            string match;
+            const int startIndex = 2;
+
+            int result = s.IndexOfAny(anyOf, startIndex, StringComparison.InvariantCulture, out match);
+
+            Assert.That(result, Is.EqualTo(15));
+            Assert.That(match, Is.EqualTo("string"));
+        }
+
+        [Test]
+        public static void TestIndexOfAnyWithShortCountExpectNoMatch()
+        {
+            const string s = "string one and string two";
+
+            var anyOf = new[] { "string" };
+            string match;
+            const int startIndex = 2;
+            const int count = 18; // to the 'n' of the second 'string'
+
+            int result = s.IndexOfAny(anyOf, startIndex, count, StringComparison.InvariantCulture, out match);
+
+            Assert.That(result, Is.EqualTo(-1));
+            Assert.That(match, Is.Null);
+        }
+
+        [Test]
+        public static void TestIndexOfAnyWithLongCountExpectMatch()
+        {
+            const string s = "string one and string two";
+
+            var anyOf = new[] { "string" };
+            string match;
+            const int startIndex = 2;
+            const int count = 19;
+
+            int result = s.IndexOfAny(anyOf, startIndex, count, StringComparison.InvariantCulture, out match);
+
+            Assert.That(result, Is.EqualTo(15));
+            Assert.That(match, Is.EqualTo("string"));
+        }
+
+        [Test]
+        public static void TestLastIndexOfAnyWithNoMatchExpectMinusOne()
+        {
+            const string s = "the string to search";
+
+            var anyOf = new[] { "not present" };
+            string match;
+
+            int result = s.LastIndexOfAny(anyOf, StringComparison.InvariantCulture, out match);
+
+            Assert.That(result, Is.EqualTo(-1));
+            Assert.That(match, Is.Null);
+        }
+
+        [Test]
+        public static void TestLastIndexOfAnyWithMatchExpectSuccess()
+        {
+            const string s = "the string to search";
+
+            var anyOf = new[] { "string" };
+            string match;
+
+            int result = s.LastIndexOfAny(anyOf, StringComparison.InvariantCulture, out match);
+
+            Assert.That(result, Is.EqualTo(4));
+            Assert.That(match, Is.EqualTo("string"));
+        }
+
+        [Test]
+        public static void TestLastIndexOfAnyWithMultipleMatchesExpectIndexOfLastOne()
+        {
+            const string s = "the string to search has another string";
+
+            var anyOf = new[] { "string" };
+            string match;
+
+            int result = s.LastIndexOfAny(anyOf, StringComparison.InvariantCulture, out match);
+
+            Assert.That(result, Is.EqualTo(33));
+            Assert.That(match, Is.EqualTo("string"));
+        }
+
+        [Test]
+        public static void TestLastIndexOfAnyWithMultipleCandidatesExpectIndexOfLastMatch()
+        {
+            const string s = "the string to search has another string to search in it";
+
+            var anyOf = new[] { "search", "string" };
+            string match;
+
+            int result = s.LastIndexOfAny(anyOf, StringComparison.InvariantCulture, out match);
+
+            Assert.That(result, Is.EqualTo(43));
+            Assert.That(match, Is.EqualTo("search"));
+        }
+
+        [Test]
+        public static void TestLastIndexOfAnyWithExactMatchExpectZeroIndex()
+        {
+            const string s = "string";
+
+            var anyOf = new[] { "string" };
+            string match;
+
+            int result = s.LastIndexOfAny(anyOf, StringComparison.InvariantCulture, out match);
+
+            Assert.That(result, Is.EqualTo(0));
+            Assert.That(match, Is.EqualTo("string"));
+        }
+
+        [Test]
+        public static void TestLastIndexOfAnyWithStartIndexExpectSuccess()
+        {
+            const string s = "the string one and string two";
+
+            var anyOf = new[] { "string" };
+            string match;
+            const int startIndex = 23; // 'n' of the second 'string'
+
+            int result = s.LastIndexOfAny(anyOf, startIndex, StringComparison.InvariantCulture, out match);
+
+            Assert.That(result, Is.EqualTo(4));
+            Assert.That(match, Is.EqualTo("string"));
+        }
+
+        [Test]
+        public static void TestLastIndexOfAnyWithShortCountExpectNoMatch()
+        {
+            const string s = "string one and string two";
+
+            var anyOf = new[] { "string" };
+            string match;
+            int startIndex = s.Length - 1;
+            const int count = 9; // to the 't' of the second 'string'
+
+            int result = s.LastIndexOfAny(anyOf, startIndex, count, StringComparison.InvariantCulture, out match);
+
+            Assert.That(result, Is.EqualTo(-1));
+            Assert.That(match, Is.Null);
+        }
+
+        [Test]
+        public static void TestLastIndexOfAnyWithLongCountExpectMatch()
+        {
+            const string s = "string one and string two";
+
+            var anyOf = new[] { "string" };
+            string match;
+            int startIndex = s.Length - 1;
+            const int count = 10;
+
+            int result = s.LastIndexOfAny(anyOf, startIndex, count, StringComparison.InvariantCulture, out match);
+
+            Assert.That(result, Is.EqualTo(15));
+            Assert.That(match, Is.EqualTo("string"));
         }
     }
 }
