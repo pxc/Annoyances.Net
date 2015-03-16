@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Annoyances.Net
@@ -331,6 +332,55 @@ namespace Annoyances.Net
         // ReSharper restore PossibleMultipleEnumeration
         // ReSharper restore FunctionNeverReturns
         #endregion
+
+        /// <summary>
+        /// Gets all permutations of the elements in the sequence
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the sequence</typeparam>
+        /// <param name="sequence">The sequence to permute</param>
+        /// <returns>All permutations, e.g. [1, 2, 3] yields [ [1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1] ]</returns>
+        public static IEnumerable<IEnumerable<T>> Permute<T>(this IEnumerable<T> sequence)
+        {
+            if (sequence == null)
+            {
+                throw new ArgumentNullException("sequence");
+            }
+
+            T[] array = sequence as T[] ?? sequence.ToArray();
+
+            if (array.Length == 0)
+            {
+                return Enumerable.Empty<IEnumerable<T>>();
+            }
+
+            if (array.Length == 1)
+            {
+                return new[] { array };
+            }
+
+            return PermuteMultipleElements(array);
+        }
+
+        private static IEnumerable<IEnumerable<T>> PermuteMultipleElements<T>(IList<T> array)
+        {
+            Debug.Assert(array != null);
+            Debug.Assert(array.Count > 1);
+
+            // e.g. if given [1, 2, 3, 4] then return
+            // sequences starting with 1 for all permutations of [2, 3, 4] following, then
+            // sequences starting with 2 for all permutations of [1, 3, 4] following, then
+            // sequences starting with 3 for all permutations of [1, 2, 4] following, then
+            // sequences starting with 4 for all permutations of [1, 2, 3] following
+            for (int i = 0; i < array.Count; i++)
+            {
+                int i1 = i;
+                IEnumerable<T> others = array.Where((t, j) => j != i1);
+                foreach (IEnumerable<T> permutedOthers in others.Permute())
+                {
+                    yield return (new[] { array[i] }).Concat(permutedOthers);
+                }
+            }
+        }
     }
 
     /// <summary>

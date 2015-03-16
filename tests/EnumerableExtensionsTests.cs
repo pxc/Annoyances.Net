@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using NUnit.Framework;
@@ -258,6 +259,121 @@ namespace Annoyances.Net.Tests
             var result = sequence.Cycle().Take(7);
 
             Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public static void TestPermuteWithNullExpectArgumentNullException()
+        {
+            IEnumerable<int> sequence = null;
+            // don't get a NullReferenceException because Permute is an extension method
+            Assert.That(() => sequence.Permute(), Throws.InstanceOf<ArgumentNullException>());
+        }
+
+        [Test]
+        public static void TestPermuteWithEmptySequenceExpectEmptySequence()
+        {
+            var emptySequence = Enumerable.Empty<int>();
+            var result = emptySequence.Permute();
+            Assert.That(result, Is.Empty);
+        }
+
+        [Test]
+        public static void TestPermuteWithOneElementExpectThatElement()
+        {
+            var oneElement = new[] {0};
+            var expectedResult = new[] {new[] {0}};
+            var result = oneElement.Permute();
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public static void TestPermuteWithTwoElementsExpectBothPairs()
+        {
+            var twoElements = new[] {1, 2};
+            var expectedResult = new[] {new[] {1, 2}, new[] {2, 1}};
+            var result = twoElements.Permute();
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public static void TestPermuteWithThreeElementsExpectSuccess()
+        {
+            var threeElements = new[] {1, 2, 3};
+            var expectedResult = new[]
+                                 {
+                                     new[] {1, 2, 3},
+                                     new[] {1, 3, 2},
+                                     new[] {2, 1, 3},
+                                     new[] {2, 3, 1},
+                                     new[] {3, 1, 2},
+                                     new[] {3, 2, 1}
+                                 };
+            var result = threeElements.Permute().ToArray();
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public static void TestPermuteWithFourElementsExpectSuccess()
+        {
+            var fourElements = new[] { 1, 2, 3, 4 };
+            var expectedResult = new[]
+                                 {
+                                     new[] {1, 2, 3, 4},
+                                     new[] {1, 2, 4, 3},
+                                     new[] {1, 3, 2, 4},
+                                     new[] {1, 3, 4, 2},
+                                     new[] {1, 4, 2, 3},
+                                     new[] {1, 4, 3, 2},
+                                     new[] {2, 1, 3, 4},
+                                     new[] {2, 1, 4, 3},
+                                     new[] {2, 3, 1, 4},
+                                     new[] {2, 3, 4, 1},
+                                     new[] {2, 4, 1, 3},
+                                     new[] {2, 4, 3, 1},
+                                     new[] {3, 1, 2, 4},
+                                     new[] {3, 1, 4, 2},
+                                     new[] {3, 2, 1, 4},
+                                     new[] {3, 2, 4, 1},
+                                     new[] {3, 4, 1, 2},
+                                     new[] {3, 4, 2, 1},
+                                     new[] {4, 1, 2, 3},
+                                     new[] {4, 1, 3, 2},
+                                     new[] {4, 2, 1, 3},
+                                     new[] {4, 2, 3, 1},
+                                     new[] {4, 3, 1, 2},
+                                     new[] {4, 3, 2, 1}
+                                 };
+            var result = fourElements.Permute().ToArray();
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public static void TestPermuteWithDuplicatesExpectDuplicates()
+        {
+            var expectedResult = new[] {
+                new[] { "A", "B", "B" },
+                new[] { "A", "B", "B" },
+                new[] { "B", "A", "B" },
+                new[] { "B", "B", "A" },
+                new[] { "B", "A", "B" },
+                new[] { "B", "B", "A" }
+            };
+            var result = new[] {"A", "B", "B"}.Permute();
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test, Ignore("Slow")]
+        public static void TestPermuteWithLargeNumberOfElementsExpectSuccess()
+        {
+            var sequence = Enumerable.Range(1, 10);
+            const int tenFactorial = 3628800;
+
+            var result = sequence.Permute().ToList();
+
+            Assert.That(result, Has.Count.EqualTo(tenFactorial));
         }
     }
     // ReSharper restore RedundantTypeArgumentsOfMethod
