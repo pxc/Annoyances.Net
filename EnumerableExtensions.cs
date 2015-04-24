@@ -13,266 +13,290 @@ namespace Annoyances.Net
         #region MaxOrDefault
         public static T MaxOrDefault<T>(this IEnumerable<T> sequence, T defaultValue)
         {
-            if (sequence == null || !sequence.Any())
+            if (sequence == null)
             {
                 return defaultValue;
             }
 
-            return sequence.Max();
+            sequence = sequence as T[] ?? sequence.ToArray();
+            return !sequence.Any() ? defaultValue : sequence.Max();
         }
 
         public static TResult MaxOrDefault<T, TResult>(
             this IEnumerable<T> sequence, Func<T, TResult> f, TResult defaultValue)
         {
-            if (sequence == null || !sequence.Any())
+            if (sequence == null)
             {
                 return defaultValue;
             }
 
-            return sequence.Max(f);
+            sequence = sequence as T[] ?? sequence.ToArray();
+            return !sequence.Any() ? defaultValue : sequence.Max(f);
         }
         #endregion
 
         #region MinOrDefault
         public static T MinOrDefault<T>(this IEnumerable<T> sequence, T defaultValue)
         {
-            if (sequence == null || !sequence.Any())
+            if (sequence == null)
             {
                 return defaultValue;
             }
 
-            return sequence.Min();
+            sequence = sequence as T[] ?? sequence.ToArray();
+            return !sequence.Any() ? defaultValue : sequence.Min();
         }
 
         public static TResult MinOrDefault<T, TResult>(
             this IEnumerable<T> sequence, Func<T, TResult> f, TResult defaultValue)
         {
-            if (sequence == null || !sequence.Any())
+            if (sequence == null)
             {
                 return defaultValue;
             }
 
-            return sequence.Min(f);
+            sequence = sequence as T[] ?? sequence.ToArray();
+            return !sequence.Any() ? defaultValue : sequence.Min(f);
         }
         #endregion
 
         #region AverageOrDefault_decimal
-        public static decimal AverageOrDefault<T>(this IEnumerable<decimal> sequence, decimal defaultValue)
+        public static decimal AverageOrDefault(this IEnumerable<decimal> sequence, decimal defaultValue)
         {
-            if (sequence == null || !sequence.Any())
+            if (sequence == null)
             {
                 return defaultValue;
             }
 
-            return sequence.Average();
+            sequence = sequence as decimal[] ?? sequence.ToArray();
+            return !sequence.Any() ? defaultValue : sequence.Average();
         }
 
         public static decimal AverageOrDefault<T>(
             this IEnumerable<T> sequence, Func<T, decimal> f, decimal defaultValue)
         {
-            if (sequence == null || !sequence.Any())
+            if (sequence == null)
             {
                 return defaultValue;
             }
 
-            return sequence.Average(f);
+            sequence = sequence as T[] ?? sequence.ToArray();
+            return !sequence.Any() ? defaultValue : sequence.Average(f);
         }
 
-        public static decimal? AverageOrDefault<T>(this IEnumerable<decimal?> sequence, decimal? defaultValue)
+        public static decimal? AverageOrDefault(this IEnumerable<decimal?> sequence, decimal? defaultValue)
         {
-            if (sequence == null || !sequence.Any())
+            if (sequence == null)
             {
                 return defaultValue;
             }
 
-            return sequence.Average();
+            sequence = sequence as decimal?[] ?? sequence.ToArray();
+            return !sequence.Any() ? defaultValue : sequence.Average();
         }
 
         public static decimal? AverageOrDefault<T>(
             this IEnumerable<T> sequence, Func<T, decimal?> f, decimal? defaultValue)
         {
-            if (sequence == null || !sequence.Any())
+            if (sequence == null)
             {
                 return defaultValue;
             }
 
-            return sequence.Average(f);
+            sequence = sequence as T[] ?? sequence.ToArray();
+            return !sequence.Any() ? defaultValue : sequence.Average(f);
         }
         #endregion
 
         #region AverageOrDefault_double
-        public static double AverageOrDefault<T>(this IEnumerable<double> sequence, double defaultValue)
+        public static double AverageOrDefault(this IEnumerable<double> sequence, double defaultValue)
         {
-            if (sequence == null || !sequence.Any())
+            if (sequence == null)
             {
                 return defaultValue;
             }
 
-            return sequence.Average();
+            sequence = sequence as double[] ?? sequence.ToArray();
+            return !sequence.Any() ? defaultValue : sequence.Average();
         }
 
         public static double AverageOrDefault<T>(
             this IEnumerable<T> sequence, Func<T, double> f, double defaultValue)
         {
-            if (sequence == null || !sequence.Any())
+            if (sequence == null)
             {
                 return defaultValue;
             }
 
-            return sequence.Average(f);
+            sequence = sequence as T[] ?? sequence.ToArray();
+            return !sequence.Any() ? defaultValue : sequence.Average(f);
         }
 
-        public static double? AverageOrDefault<T>(this IEnumerable<double?> sequence, double? defaultValue)
+        public static double? AverageOrDefault(this IEnumerable<double?> sequence, double? defaultValue)
         {
-            if (sequence == null || !sequence.Any())
+            if (sequence == null)
             {
                 return defaultValue;
             }
 
-            return sequence.Average();
+            sequence = sequence as double?[] ?? sequence.ToArray();
+            return !sequence.Any() ? defaultValue : sequence.Average();
         }
 
         public static double? AverageOrDefault<T>(
             this IEnumerable<T> sequence, Func<T, double?> f, double? defaultValue)
         {
-            if (sequence == null || !sequence.Any())
+            if (sequence == null)
             {
                 return defaultValue;
             }
 
-            return sequence.Average(f);
+            sequence = sequence as T[] ?? sequence.ToArray();
+            return !sequence.Any() ? defaultValue : sequence.Average(f);
         }
         #endregion
 
         #region AverageOrDefault_float
-        public static float AverageOrDefault<T>(this IEnumerable<float> sequence, float defaultValue)
+        public static float AverageOrDefault(this IEnumerable<float> sequence, float defaultValue)
         {
-            if (sequence == null || !sequence.Any())
+            if (sequence == null)
             {
                 return defaultValue;
             }
 
-            return sequence.Average();
+            sequence = sequence as float[] ?? sequence.ToArray();
+            return !sequence.Any() ? defaultValue : sequence.Average();
         }
 
         public static float AverageOrDefault<T>(
             this IEnumerable<T> sequence, Func<T, float> f, float defaultValue)
         {
-            if (sequence == null || !sequence.Any())
+            if (sequence == null)
             {
                 return defaultValue;
             }
 
-            return sequence.Average(f);
+            sequence = sequence as T[] ?? sequence.ToArray();
+            return !sequence.Any() ? defaultValue : sequence.Average(f);
         }
 
-        public static float? AverageOrDefault<T>(this IEnumerable<float?> sequence, float? defaultValue)
+        public static float? AverageOrDefault(this IEnumerable<float?> sequence, float? defaultValue)
         {
-            if (sequence == null || !sequence.Any())
+            if (sequence == null)
             {
                 return defaultValue;
             }
 
-            return sequence.Average();
+            sequence = sequence as float?[] ?? sequence.ToArray();
+            return !sequence.Any() ? defaultValue : sequence.Average();
         }
 
         public static float? AverageOrDefault<T>(
             this IEnumerable<T> sequence, Func<T, float?> f, float? defaultValue)
         {
-            if (sequence == null || !sequence.Any())
+            if (sequence == null)
             {
                 return defaultValue;
             }
 
-            return sequence.Average(f);
+            sequence = sequence as T[] ?? sequence.ToArray();
+            return !sequence.Any() ? defaultValue : sequence.Average(f);
         }
         #endregion
 
         #region AverageOrDefault_int
-        public static double AverageOrDefault<T>(this IEnumerable<int> sequence, double defaultValue)
+        public static double AverageOrDefault(this IEnumerable<int> sequence, double defaultValue)
         {
-            if (sequence == null || !sequence.Any())
+            if (sequence == null)
             {
                 return defaultValue;
             }
 
-            return sequence.Average();
+            sequence = sequence as int[] ?? sequence.ToArray();
+            return !sequence.Any() ? defaultValue : sequence.Average();
         }
 
         public static double AverageOrDefault<T>(
             this IEnumerable<T> sequence, Func<T, int> f, double defaultValue)
         {
-            if (sequence == null || !sequence.Any())
+            if (sequence == null)
             {
                 return defaultValue;
             }
 
-            return sequence.Average(f);
+            sequence = sequence as T[] ?? sequence.ToArray();
+            return !sequence.Any() ? defaultValue : sequence.Average(f);
         }
 
-        public static double? AverageOrDefault<T>(this IEnumerable<int?> sequence, double? defaultValue)
+        public static double? AverageOrDefault(this IEnumerable<int?> sequence, double? defaultValue)
         {
-            if (sequence == null || !sequence.Any())
+            if (sequence == null)
             {
                 return defaultValue;
             }
 
-            return sequence.Average();
+            sequence = sequence as int?[] ?? sequence.ToArray();
+            return !sequence.Any() ? defaultValue : sequence.Average();
         }
 
         public static double? AverageOrDefault<T>(
             this IEnumerable<T> sequence, Func<T, int?> f, double? defaultValue)
         {
-            if (sequence == null || !sequence.Any())
+            if (sequence == null)
             {
                 return defaultValue;
             }
 
-            return sequence.Average(f);
+            sequence = sequence as T[] ?? sequence.ToArray();
+            return !sequence.Any() ? defaultValue : sequence.Average(f);
         }
         #endregion
 
         #region AverageOrDefault_long
-        public static double AverageOrDefault<T>(this IEnumerable<long> sequence, double defaultValue)
+        public static double AverageOrDefault(this IEnumerable<long> sequence, double defaultValue)
         {
-            if (sequence == null || !sequence.Any())
+            if (sequence == null)
             {
                 return defaultValue;
             }
 
-            return sequence.Average();
+            sequence = sequence as long[] ?? sequence.ToArray();
+            return !sequence.Any() ? defaultValue : sequence.Average();
         }
 
         public static double AverageOrDefault<T>(
             this IEnumerable<T> sequence, Func<T, long> f, double defaultValue)
         {
-            if (sequence == null || !sequence.Any())
+            if (sequence == null)
             {
                 return defaultValue;
             }
 
-            return sequence.Average(f);
+            sequence = sequence as T[] ?? sequence.ToArray();
+            return !sequence.Any() ? defaultValue : sequence.Average(f);
         }
 
-        public static double? AverageOrDefault<T>(this IEnumerable<long?> sequence, double? defaultValue)
+        public static double? AverageOrDefault(this IEnumerable<long?> sequence, double? defaultValue)
         {
-            if (sequence == null || !sequence.Any())
+            if (sequence == null)
             {
                 return defaultValue;
             }
 
-            return sequence.Average();
+            sequence = sequence as long?[] ?? sequence.ToArray();
+            return !sequence.Any() ? defaultValue : sequence.Average();
         }
 
         public static double? AverageOrDefault<T>(
             this IEnumerable<T> sequence, Func<T, long?> f, double? defaultValue)
         {
-            if (sequence == null || !sequence.Any())
+            if (sequence == null)
             {
                 return defaultValue;
             }
 
-            return sequence.Average(f);
+            sequence = sequence as T[] ?? sequence.ToArray();
+            return !sequence.Any() ? defaultValue : sequence.Average(f);
         }
         #endregion
 

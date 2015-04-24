@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using NUnit.Framework;
@@ -100,28 +99,28 @@ namespace Annoyances.Net.Tests
         public void TestAverageOrDefaultWithNullExpectDefault()
         {
             IEnumerable<double> sequence = null;
-            Assert.That(sequence.AverageOrDefault<double>(-1.0), Is.EqualTo(-1.0));
+            Assert.That(sequence.AverageOrDefault(-1.0), Is.EqualTo(-1.0));
         }
 
         [Test]
         public void TestAverageOrDefaultWithEmptySequenceExpectDefault()
         {
             IEnumerable<double> sequence = Enumerable.Empty<double>();
-            Assert.That(sequence.AverageOrDefault<double>(-1.0), Is.EqualTo(-1.0));
+            Assert.That(sequence.AverageOrDefault(-1.0), Is.EqualTo(-1.0));
         }
 
         [Test]
         public void TestAverageOrDefaultWithSequenceExpectAverage()
         {
             IEnumerable<double> sequence = new[] { 1.0, 2, 3, 4 };
-            Assert.That(sequence.AverageOrDefault<double>(-1.0), Is.EqualTo(2.5));
+            Assert.That(sequence.AverageOrDefault(-1.0), Is.EqualTo(2.5));
         }
 
         [Test]
         public void TestAverageOrDefaultTransformWithNullExpectDefault()
         {
             IEnumerable<double> sequence = null;
-            Assert.That(sequence.AverageOrDefault<double>(v => v + 1, -1.0), Is.EqualTo(-1.0));
+            Assert.That(sequence.AverageOrDefault(v => v + 1, -1.0), Is.EqualTo(-1.0));
         }
 
         [Test]
