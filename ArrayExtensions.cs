@@ -157,12 +157,7 @@ namespace Annoyances.Net
                 throw new ArgumentNullException("array");
             }
 
-            int maxIndex = array.GetLength(0) - 1;
-            if (rowIndex < 0 || rowIndex > maxIndex)
-            {
-                string message = string.Format("must be between 0 and {0}", maxIndex);
-                throw new ArgumentOutOfRangeException("rowIndex", rowIndex, message);
-            }
+            AssertRowIndexIsValid(array, rowIndex);
 
             for (int columnIndex = 0; columnIndex < array.GetLength(1); columnIndex++)
             {
@@ -184,16 +179,31 @@ namespace Annoyances.Net
                 throw new ArgumentNullException("array");
             }
 
-            int maxIndex = array.GetLength(1) - 1;
-            if (columnIndex < 0 || columnIndex > maxIndex)
-            {
-                string message = string.Format("must be between 0 and {0}", maxIndex);
-                throw new ArgumentOutOfRangeException("columnIndex", columnIndex, message);
-            }
+            AssertColumnIndexIsValid(array, columnIndex);
 
             for (int rowIndex = 0; rowIndex < array.GetLength(0); rowIndex++)
             {
                 yield return array[rowIndex, columnIndex];
+            }
+        }
+
+        private static void AssertRowIndexIsValid<T>(T[,] array, int rowIndex)
+        {
+            AssertIndexIsValid(array.GetLength(0), rowIndex);
+        }
+
+        private static void AssertColumnIndexIsValid<T>(T[,] array, int columnIndex)
+        {
+            AssertIndexIsValid(array.GetLength(1), columnIndex);
+        }
+
+        private static void AssertIndexIsValid(int arrayDimensionLength, int index)
+        {
+            int maxIndex = arrayDimensionLength - 1;
+            if (index < 0 || index > maxIndex)
+            {
+                string message = string.Format("must be between 0 and {0}", maxIndex);
+                throw new ArgumentOutOfRangeException("index", index, message);
             }
         }
     }
