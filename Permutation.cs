@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Annoyances.Net
@@ -38,48 +39,70 @@ namespace Annoyances.Net
             {
                 // do nothing
             }
-            else if (numberToChoose == total)
-            {
-                yield return Enumerable.Range(0, numberToChoose).ToArray();                
-            }
             else
             {
                 // start with an array of indexes
                 int[] indexes = Enumerable.Range(0, numberToChoose).ToArray();
 
-                bool hasMore;
                 do
                 {
                     yield return (int[])indexes.Clone();
-
-                    hasMore = Increment(indexes, total - 1);
-                } while (hasMore);
+                } while (Increment(indexes, total - 1));
             }
         }
 
+        /// <summary>
+        /// Finds the next index in the sequence, e.g. going from [0, 1, 2] to [0, 1, 3]
+        /// </summary>
+        /// <param name="indexes">A set of indexes, e.g. [0, 1, 2]</param>
+        /// <param name="maxIndex">The maximum valid index value</param>
+        /// <returns>True if an index was found; false if we already hit the end</returns>
         private static bool Increment(int[] indexes, int maxIndex)
         {
-            int indexOfRightmostOneWeCanIncrement = indexes.Length - 1;
+            AssertIndexesAreValid(indexes, maxIndex);
 
-            do
+            // to avoid confusion, let's use the term "place" when we're talking about
+            // an index into the indexes[] array itself -- starting at the right and working left
+            for (int placeToIncrement = indexes.Length - 1; placeToIncrement >= 0; placeToIncrement--)
             {
-                int maxValue = maxIndex - (indexes.Length - indexOfRightmostOneWeCanIncrement) + 1;
-
-                if (indexes[indexOfRightmostOneWeCanIncrement] != maxValue)
+                if (CanIncrementIndexAtPlace(indexes, placeToIncrement, maxIndex))
                 {
-                    indexes[indexOfRightmostOneWeCanIncrement]++;
-                    for (int i = indexOfRightmostOneWeCanIncrement + 1; i < indexes.Length; i++)
-                    {
-                        indexes[i] = indexes[i - 1] + 1;
-                    }
-
+                    IncrementIndexAtPlace(indexes, maxIndex, placeToIncrement);
                     return true;
                 }
-
-                indexOfRightmostOneWeCanIncrement--;
-            } while (indexOfRightmostOneWeCanIncrement >= 0);
+            }
 
             return false;
         }
+
+        private static bool CanIncrementIndexAtPlace(int[] indexes, int placeToIncrement, int maxIndexForRightmostPlace)
+        {
+            int maxIndexForCurrentPlace = maxIndexForRightmostPlace - (indexes.Length - placeToIncrement) + 1;
+            return indexes[placeToIncrement] != maxIndexForCurrentPlace;
+        }
+
+        private static void IncrementIndexAtPlace(int[] indexes, int maxIndex, int placeToIncrement)
+        {
+            indexes[placeToIncrement]++;
+            for (int i = placeToIncrement + 1; i < indexes.Length; i++)
+            {
+                indexes[i] = indexes[i - 1] + 1;
+            }
+
+            AssertIndexesAreValid(indexes, maxIndex);
+        }
+
+        // ReSharper disable UnusedParameter.Local
+        [Conditional("DEBUG")]
+        private static void AssertIndexesAreValid(int[] indexes, int maxIndex)
+        {
+            // all in bounds
+            Debug.Assert(indexes.All(i => 0 <= i && i <= maxIndex));
+
+            // strictly ascending
+            Debug.Assert(indexes.Zip(indexes.Skip(1), (i, j) => new{i, j})
+                .All(ij => ij.i < ij.j));
+        }
+        // ReSharper restore UnusedParameter.Local
     }
 }
