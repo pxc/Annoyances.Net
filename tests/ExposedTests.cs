@@ -2,11 +2,25 @@
 
 namespace Annoyances.Net.Tests
 {
+
+// don't warn about unused private fields
+#pragma warning disable 169
+#pragma warning disable 414
+
+// ReSharper disable InconsistentNaming
+// ReSharper disable ValueParameterNotUsed
+// ReSharper disable UnusedMember.Local
+// ReSharper disable UnusedParameter.Local
+
     /// <summary>
     /// A class to test <seealso cref="Exposed"/> with.
     /// </summary>
     public class SomeClass
     {
+        private bool m_private = true;
+        protected bool m_protected = true;
+        public bool m_public = true;
+
         private bool PrivateGetter
         {
             get { return true; }
@@ -50,6 +64,13 @@ namespace Annoyances.Net.Tests
         }
     }
 
+// ReSharper restore UnusedParameter.Local
+// ReSharper restore UnusedMember.Local
+// ReSharper restore ValueParameterNotUsed
+// ReSharper restore InconsistentNaming
+#pragma warning restore 414
+#pragma warning restore 169
+
     [TestFixture]
     public class ExposedTests
     {
@@ -62,6 +83,42 @@ namespace Annoyances.Net.Tests
         public void SetUp()
         {
             m_exposed = new Exposed(new SomeClass());
+        }
+
+        [Test]
+        public void TextExposedWithPrivateFieldExpectAccess()
+        {
+            Assert.That(m_exposed.m_private, Is.True);
+        }
+
+        [Test]
+        public void TextExposedWithProtectedFieldExpectAccess()
+        {
+            Assert.That(m_exposed.m_protected, Is.True);
+        }
+
+        [Test]
+        public void TextExposedWithPublicFieldExpectAccess()
+        {
+            Assert.That(m_exposed.m_public, Is.True);
+        }
+
+        [Test]
+        public void TextExposedWithPrivateFieldSetterExpectAccess()
+        {
+            Assert.That(() => m_exposed.m_private = true, Throws.Nothing);
+        }
+
+        [Test]
+        public void TextExposedWithProtectedFieldSetterExpectAccess()
+        {
+            Assert.That(() => m_exposed.m_protected = true, Throws.Nothing);
+        }
+
+        [Test]
+        public void TextExposedWithPublicFieldSetterExpectAccess()
+        {
+            Assert.That(() => m_exposed.m_public = true, Throws.Nothing);
         }
 
         [Test]
@@ -134,4 +191,3 @@ namespace Annoyances.Net.Tests
         }
     }
 }
-

@@ -35,6 +35,25 @@ namespace Annoyances.Net
 
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
+            return TryGetField(binder, out result) || TryGetProperty(binder, out result);
+        }
+
+        private bool TryGetField(GetMemberBinder binder, out object result)
+        {
+            FieldInfo fi = m_o.GetType().GetFields(AllBindingFlags).SingleOrDefault(f => f.Name.Equals(binder.Name));
+
+            if (fi == null)
+            {
+                result = "Invalid Field!";
+                return false;
+            }
+
+            result = fi.GetValue(m_o);
+            return true;
+        }
+
+        private bool TryGetProperty(GetMemberBinder binder, out object result)
+        {
             PropertyInfo pi = m_o.GetType().GetProperties(AllBindingFlags).SingleOrDefault(m => m.Name.Equals(binder.Name));
 
             if (pi == null)
@@ -49,6 +68,24 @@ namespace Annoyances.Net
         }
 
         public override bool TrySetMember(SetMemberBinder binder, object value)
+        {
+            return TrySetField(binder, value) || TrySetProperty(binder, value);
+        }
+
+        private bool TrySetField(SetMemberBinder binder, object value)
+        {
+            FieldInfo fi = m_o.GetType().GetFields(AllBindingFlags).SingleOrDefault(f => f.Name.Equals(binder.Name));
+
+            if (fi == null)
+            {
+                return false;
+            }
+
+            fi.SetValue(m_o, value);
+            return true;
+        }
+
+        private bool TrySetProperty(SetMemberBinder binder, object value)
         {
             PropertyInfo pi = m_o.GetType().GetProperties(AllBindingFlags).SingleOrDefault(m => m.Name.Equals(binder.Name));
 
