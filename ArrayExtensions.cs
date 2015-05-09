@@ -144,7 +144,7 @@ namespace Annoyances.Net
         }
 
         /// <summary>
-        /// Gets the elements from one row of a square array
+        /// Gets the elements from one row of a rectangular array
         /// </summary>
         /// <typeparam name="T">The type of elements</typeparam>
         /// <param name="array">The array</param>
@@ -166,7 +166,7 @@ namespace Annoyances.Net
         }
 
         /// <summary>
-        /// Gets the elements from one column of a square array
+        /// Gets the elements from one column of a rectangular array
         /// </summary>
         /// <typeparam name="T">The type of elements</typeparam>
         /// <param name="array">The array</param>
