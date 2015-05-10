@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Text;
 using NUnit.Framework;
 
 namespace Annoyances.Net.Tests
@@ -290,6 +291,44 @@ namespace Annoyances.Net.Tests
 
             Assert.That(result, Is.EqualTo(15));
             Assert.That(match, Is.EqualTo("string"));
+        }
+
+        [Test]
+        public static void TestToByteArrayWithNullStringExpectArgumentNullException()
+        {
+            Assert.That(() => ((string)null).ToByteArray(Encoding.UTF8), Throws.InstanceOf<ArgumentNullException>());
+        }
+
+        [Test]
+        public static void TestToByteArrayWithNullEncodingExpectArgumentNullException()
+        {
+            Assert.That(() => "A".ToByteArray(null), Throws.InstanceOf<ArgumentNullException>());
+        }
+
+        [Test]
+        public static void TestToByteArrayWithEmptyStringExpectEmptyArray()
+        {
+            Assert.That(string.Empty.ToByteArray(Encoding.UTF8), Is.Empty);
+        }
+
+        [Test]
+        public static void TestToByteArrayWithOneSimpleCharacterExpectArrayWithOneElement()
+        {
+            byte[] result = "A".ToByteArray(Encoding.UTF8);
+            byte[] expectedResult = new[] { (byte)'A' };
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public static void TestToByteArrayWithOneUnicodeCharacterExpectArrayWithTwoElements()
+        {
+            string smileyFace = char.ConvertFromUtf32(9786); // ☺ = U+263A = 9786
+            byte[] result = smileyFace.ToByteArray(Encoding.UTF8);
+
+            byte[] expectedResult = new byte[] { 226, 152, 186 };
+
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
     }
 }

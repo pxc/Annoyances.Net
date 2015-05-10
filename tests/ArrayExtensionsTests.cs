@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
+using System.Text;
 
 namespace Annoyances.Net.Tests
 {
@@ -226,6 +227,44 @@ namespace Annoyances.Net.Tests
 
             var result = arr.Column(1);
             var expectedResult = new[] { 2, 4 };
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public static void TestToByteArrayWithNullArrayExpectArgumentNullException()
+        {
+            char[] c = null;
+            Assert.That(() => c.ToByteArray(Encoding.UTF8), Throws.InstanceOf<ArgumentNullException>());
+        }
+
+        [Test]
+        public static void TestToByteArrayWithNullEncodingExpectArgumentNullException()
+        {
+            char[] c = new[] { 'A' };
+            Assert.That(() => c.ToByteArray(null), Throws.InstanceOf<ArgumentNullException>());
+        }
+
+        [Test]
+        public static void TestToByteArrayWithSimpleCharArrayExpectSuccess()
+        {
+            char[] c = new[] { 'H', 'e', 'l', 'l', 'o' };
+            byte[] result = c.ToByteArray(Encoding.ASCII);
+
+            byte[] expectedResult = new[] { (byte)'H', (byte)'e', (byte)'l', (byte)'l', (byte)'o' };
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public static void TestToByteArrayWithUnicodeCharacterExpectSuccess()
+        {
+            char smileyFace = char.ConvertFromUtf32(9786).ToCharArray().Single(); // ☺ = U+263A = 9786
+
+            char[] c = new[] { smileyFace };
+            byte[] result = c.ToByteArray(Encoding.UTF8);
+
+            byte[] expectedResult = new byte[] { 226, 152, 186 };
 
             Assert.That(result, Is.EqualTo(expectedResult));
         }

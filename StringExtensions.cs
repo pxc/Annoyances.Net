@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Annoyances.Net
@@ -138,6 +139,22 @@ namespace Annoyances.Net
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Converts a string to a byte array using the specified encoding
+        /// </summary>
+        /// <param name="s">The string</param>
+        /// <param name="encoding">The text encoding to use</param>
+        /// <returns>The bytes constituting the string</returns>
+        public static byte[] ToByteArray(this string s, Encoding encoding)
+        {
+            if (encoding == null)
+            {
+                throw new ArgumentNullException("encoding");
+            }
+
+            return encoding.GetBytes(s);
         }
     }
 }

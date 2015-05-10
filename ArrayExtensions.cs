@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Annoyances.Net
 {
@@ -205,6 +206,22 @@ namespace Annoyances.Net
                 string message = string.Format("must be between 0 and {0}", maxIndex);
                 throw new ArgumentOutOfRangeException("index", index, message);
             }
+        }
+
+        /// <summary>
+        /// Converts a character array to a byte array using the specified encoding
+        /// </summary>
+        /// <param name="c">The character array</param>
+        /// <param name="encoding">The encoding</param>
+        /// <returns>The bytes constituting the character array</returns>
+        public static byte[] ToByteArray(this char[] c, Encoding encoding)
+        {
+            if (encoding == null)
+            {
+                throw new ArgumentNullException("encoding");
+            }
+
+            return encoding.GetBytes(c);
         }
     }
 }
