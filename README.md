@@ -15,6 +15,8 @@ These methods are all extension methods so they appear seamlessly on the framewo
 
 `Row` and `Column` enumerate through the elements of one row or column from a rectangular array
 
+`ToByteArray` converts a char array to a byte array using the specified encoding
+
 ### Color extensions
 
 Various methods for working with HSI, HSL and HSV colours.
@@ -36,6 +38,8 @@ Various `...OrDefault` versions of existing LINQ methods: `MaxOrDefault`, `MinOr
 `StripTags` strips all the HTML tags from a string
 
 `IndexOfAny` and `LastIndexOfAny` find indexes locate the first/last occurrence of any of the supplied strings within another string
+
+`ToByteArray` converts a string to a byte array using the specified encoding
 
 ## `Exposed`
 
