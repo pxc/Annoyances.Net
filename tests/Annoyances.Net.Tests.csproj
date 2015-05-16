@@ -61,6 +61,7 @@
     <Compile Include="ColorHelperTests.cs" />
     <Compile Include="EnumerableExtensionsTests.cs" />
     <Compile Include="ExposedTests.cs" />
+    <Compile Include="CollectionExtensionsTests.cs" />
     <Compile Include="NotNullTests.cs" />
     <Compile Include="PermutationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

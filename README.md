@@ -33,6 +33,10 @@ Various `...OrDefault` versions of existing LINQ methods: `MaxOrDefault`, `MinOr
 
 `Permute` for getting all permutations of the elements in a sequence (e.g. [1, 2, 3] yields [ [1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1] ]).
 
+### Collection extensions
+
+`RemoveFirst` to remove the first element matching a condition.
+
 ### String extensions
 
 `StripTags` strips all the HTML tags from a string
