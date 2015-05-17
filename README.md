@@ -130,9 +130,11 @@ byte[] bytes = "somestring".ToByteArray(Encoding.UTF8);
 
 **Dangerous** but very cool. This class exposes the non-public bits of another class so you can access them easily without having to write complex code with reflection.
 
-    dynamic e = new Exposed(someClass);
-    e.PrivateProperty = 123;
-    e.DoDangerousThing();
+```csharp
+dynamic e = new Exposed(someClass);
+e.PrivateProperty = 123;
+e.DoDangerousThing();
+```
 
 Don't use it. Unless you need it. Maybe not even then.
 
