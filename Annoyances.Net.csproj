@@ -46,6 +46,7 @@
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="Exposed.cs" />
     <Compile Include="CollectionExtensions.cs" />
+    <Compile Include="ListExtensions.cs" />
     <Compile Include="NotNull.cs" />
     <Compile Include="Permutation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

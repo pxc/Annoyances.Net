@@ -37,6 +37,10 @@ Various `...OrDefault` versions of existing LINQ methods: `MaxOrDefault`, `MinOr
 
 `RemoveFirst` to remove the first element matching a condition.
 
+### List extensions
+
+A version on `IndexOf` that takes a search condition. The standard version requires a reference to the element you're looking for.
+
 ### String extensions
 
 `StripTags` strips all the HTML tags from a string
