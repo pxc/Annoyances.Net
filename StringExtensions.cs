@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -155,6 +156,86 @@ namespace Annoyances.Net
             }
 
             return encoding.GetBytes(s);
+        }
+
+        /// <summary>
+        /// What case does a camel case string start with?
+        /// </summary>
+        public enum CamelCaseStartsWith
+        {
+            /// <summary>
+            /// UpperCamelCase
+            /// </summary>
+            UpperCase,
+
+            /// <summary>
+            /// lowerCamelCase
+            /// </summary>
+            LowerCase
+        }
+
+        /// <summary>
+        /// Converts a space-delimited string to camel case
+        /// </summary>
+        /// <param name="s">The string to convert</param>
+        /// <param name="caseStarts">What case should the result start with (i.e. UpperCase vs. lowerCase)</param>
+        /// <param name="culture">Culture for changing the case</param>
+        /// <returns>The camel case string</returns>
+        public static string ToCamelCase(this string s, CamelCaseStartsWith caseStarts, CultureInfo culture)
+        {
+            if (s == null)
+            {
+                throw new ArgumentNullException("s");
+            }
+
+            string[] words = s.Split(' ');
+            string[] capitalisedWords = words.Select(t => Capitalise(t, culture)).ToArray();
+
+            string joined = string.Join("", capitalisedWords);
+
+            if (caseStarts == CamelCaseStartsWith.LowerCase && capitalisedWords.Length > 0)
+            {
+                // e.g. ThisCamelCase -> thisCamelCase
+                joined = Capitalise(joined, culture, CamelCaseStartsWith.LowerCase);
+            }
+
+            return joined;
+        }
+
+        private static string Capitalise(string s, CultureInfo culture, CamelCaseStartsWith caseStarts = CamelCaseStartsWith.UpperCase)
+        {
+            if (string.IsNullOrWhiteSpace(s))
+            {
+                return string.Empty;
+            }
+
+            var firstLetter = new string(new[] { s[0] });
+            firstLetter = caseStarts == CamelCaseStartsWith.UpperCase ? firstLetter.ToUpper(culture) : firstLetter.ToLower(culture);
+
+            var rest = new string(s.ToCharArray(1, s.Length - 1));
+
+            return firstLetter + rest;
+        }
+
+        /// <summary>
+        /// Converts a string from CamelCase by adding spaces (e.g. SomeTerm becomes "Some Term")
+        /// </summary>
+        /// <param name="s">The string to convert</param>
+        /// <returns>The converted string</returns>
+        public static string FromCamelCase(this string s)
+        {
+            if (s == null)
+            {
+                throw new ArgumentNullException("s");
+            }
+
+            IEnumerable<string> charOrSpacePlusChar = s.Select((c, i) => OptionalCamelCaseSpace(c, i) + c);
+            return string.Join("", charOrSpacePlusChar);
+        }
+
+        private static string OptionalCamelCaseSpace(char c, int i)
+        {
+            return (i > 0 && char.IsUpper(c)) ? " " : string.Empty;
         }
     }
 }

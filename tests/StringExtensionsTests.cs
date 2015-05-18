@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Text;
 using NUnit.Framework;
+using CamelCaseStartsWith = Annoyances.Net.StringExtensions.CamelCaseStartsWith;
 
 namespace Annoyances.Net.Tests
 {
@@ -327,6 +328,72 @@ namespace Annoyances.Net.Tests
             byte[] result = smileyFace.ToByteArray(Encoding.UTF8);
 
             byte[] expectedResult = new byte[] { 226, 152, 186 };
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public static void TestToCamelCaseWithNullStringExpectException()
+        {
+            Assert.That(() => ((string)null).ToCamelCase(CamelCaseStartsWith.UpperCase, CultureInfo.InvariantCulture), Throws.InstanceOf<ArgumentNullException>());
+        }
+
+        [Test]
+        public static void TestToCamelCaseWithEmptyStringExpectEmptyString()
+        {
+            string result = String.Empty.ToCamelCase(CamelCaseStartsWith.UpperCase, CultureInfo.InvariantCulture);
+            string expectedResult = string.Empty;
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public static void TestToCamelCaseWithOneLowerCaseCharacterExpectOneUpperCaseCharacter()
+        {
+            string result = "a".ToCamelCase(CamelCaseStartsWith.UpperCase, CultureInfo.InvariantCulture);
+            const string expectedResult = "A";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public static void TestToCamelCaseWithTwoWordsExpectSuccess()
+        {
+            string result = "two words".ToCamelCase(CamelCaseStartsWith.UpperCase, CultureInfo.InvariantCulture);
+            const string expectedResult = "TwoWords";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public static void TestToCamelCaseWithTwoWordsLowerCaseExpectSuccess()
+        {
+            string result = "two words".ToCamelCase(CamelCaseStartsWith.LowerCase, CultureInfo.InvariantCulture);
+            const string expectedResult = "twoWords";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public static void TestFromCamelCaseWithNullExpectException()
+        {
+            Assert.That(() => ((string)null).FromCamelCase(), Throws.InstanceOf<ArgumentNullException>());
+        }
+
+        [Test]
+        public static void TestFromCamelCaseWithEmptyStringExpectEmptyString()
+        {
+            string result = string.Empty.FromCamelCase();
+            string expectedResult = string.Empty;
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public static void TestFromCamelCaseWithTwoWordsExpectTwoWords()
+        {
+            string result = "TwoWords".FromCamelCase();
+            string expectedResult = "Two Words";
 
             Assert.That(result, Is.EqualTo(expectedResult));
         }

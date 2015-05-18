@@ -126,6 +126,14 @@ int last = quote.LastIndexOfAny(terms, StringComparison.InvariantCulture, out ma
 byte[] bytes = "somestring".ToByteArray(Encoding.UTF8);
 ```
 
+`ToCamelCase` and `FromCamelCase` convert strings to and from *CamelCase* format.
+
+```csharp
+string sentence = "some sentence to convert";
+string camel = sentence.ToCamelCase(CamelCaseStartsWith.LowerCase, CultureInfo.InvariantCulture);
+// someSentenceToConvert
+```
+
 ## `Exposed`
 
 **Dangerous** but very cool. This class exposes the non-public bits of another class so you can access them easily without having to write complex code with reflection.
