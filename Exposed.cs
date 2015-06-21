@@ -29,7 +29,17 @@ namespace Annoyances.Net
     ///                        /|
     ///                        \|
     ///
-    /// </pre></remarks>
+    /// </pre>
+    /// If you're using this class for unit testing private methods, this quotation from
+    /// Michael Feathers' book _Working Effectively with Legacy Code_ is worth reading first:
+    ///     Big classes can hide too much. This question comes up over and over
+    ///     again from people new to unit testing: "How do I test private methods?" Many
+    ///     people spend a lot of time trying to figure out how to get around this problem
+    ///     but [...] the real answer is that if you have the urge to test a private
+    ///     method, the method shouldn't be private; if making the method public bothers
+    ///     you, chances are, it is because it is part of a separate responsibility: it
+    ///     should be on another class.
+    /// </remarks>
     /// </summary>
     public class Exposed : DynamicObject
     {
