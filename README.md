@@ -19,7 +19,7 @@ var transformed = array.Select (a => a * 2).ToArray(); // { 2, 4, 6, 8, 10, 12, 
 `ToJaggedArray` converts a rectangular array to the equivalent jagged array
 
 ```csharp
-int[,] rectangularArray = new int[,] { { 1, 2, 3 }, { 4, 5, 6 } };    
+int[,] rectangularArray = new int[,] { { 1, 2, 3 }, { 4, 5, 6 } };
 int[][] jaggedArray = rectangularArray.ToJaggedArray();
 ```
 
@@ -112,10 +112,10 @@ string stripped = html.StripTags(); // "This is the content we want"
 string quote = "It was the best of times, it was the worst of times.";
 var terms = new string[] { "best", "worst", "times" };
 string match;
-    
+
 int first = quote.IndexOfAny(terms, StringComparison.InvariantCulture, out match);
 // first = 11, match = "best"
-    
+
 int last = quote.LastIndexOfAny(terms, StringComparison.InvariantCulture, out match);
 // last = 46, match = "times"
 ```
@@ -144,7 +144,7 @@ e.PrivateProperty = 123;
 e.DoDangerousThing();
 ```
 
-Don't use it. Unless you need it. Maybe not even then.
+Don't use it! Unless you need it. Maybe not even then.
 
 ## `NotNull`
 
