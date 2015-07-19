@@ -27,3 +27,10 @@ StyleCop.Cache
 # Misc files specific
 /_ReSharper.*
 Releases
+
+# Sonarqube
+.sonar
+TestResult.xml
+Annoyances.coverage
+Annoyances.coverage.xml
+
